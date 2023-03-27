@@ -1,0 +1,18 @@
+{
+    "name": "HuggingFaceAPI.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f6dcb950d1c40064aac6238fa5d8b529"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
