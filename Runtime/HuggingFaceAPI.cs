@@ -75,7 +75,7 @@ namespace HuggingFace.API {
 #if UNITY_EDITOR
             GameObject.DestroyImmediate(coroutineRunnerObject);
 #else
-        GameObject.Destroy(coroutineRunnerObject);
+            GameObject.Destroy(coroutineRunnerObject);
 #endif
         }
     }

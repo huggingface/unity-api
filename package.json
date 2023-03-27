@@ -1,13 +1,13 @@
 {
-  "name": "com.huggingface.huggingfaceapiplugin",
-  "displayName": "Hugging Face API Plugin",
-  "version": "1.0.0",
+  "name": "com.huggingface.huggingfaceapi",
+  "displayName": "Hugging Face API",
+  "version": "0.1",
   "unity": "2020.3",
   "description": "A Unity plugin for making API calls to the Hugging Face API.",
   "keywords": ["huggingface", "api", "chatbot"],
   "author": {
     "name": "Dylan Ebert",
     "email": "dylan@huggingface.co",
-    "url": "https://huggingface.co"
+    "url": "https://github.com/huggingface/unity-api"
   }
 }
