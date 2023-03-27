@@ -1,5 +1,5 @@
 {
-  "name": "com.huggingface.huggingfaceapi",
+  "name": "com.huggingface.api",
   "displayName": "Hugging Face API",
   "version": "0.1.0",
   "unity": "2020.3",

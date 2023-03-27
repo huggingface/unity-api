@@ -11,6 +11,9 @@ namespace HuggingFace.API.Editor {
         private string responseText = string.Empty;
         private string statusMessage = string.Empty;
 
+        private static string sourcePath = Path.Combine(Application.dataPath, "../Packages/com.huggingface.api/Examples");
+        private static string destinationPath = Path.Combine(Application.dataPath, "HuggingFaceAPI/Examples");
+
         static HuggingFaceAPIWizard() {
             EditorApplication.update += CheckConfig;
         }
@@ -61,6 +64,45 @@ namespace HuggingFace.API.Editor {
             if(GUILayout.Button("Save Configuration")) {
                 CreateAndSaveConfig();
             }
+
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("Examples", EditorStyles.boldLabel);
+
+            bool examplesInstalled = Directory.Exists(destinationPath);
+            EditorGUI.BeginDisabledGroup(examplesInstalled);
+
+            if(GUILayout.Button("Install Examples")) {
+                InstallExamples();
+            }
+
+            EditorGUI.EndDisabledGroup();
+            if(examplesInstalled) {
+                EditorGUILayout.HelpBox("Examples are installed. You can find them in the HuggingFaceAPI/Examples folder.", MessageType.Info);
+            }
+        }
+
+        private static void InstallExamples() {
+            if(!Directory.Exists(sourcePath)) {
+                Debug.LogError($"Examples not found at {sourcePath}");
+                return;
+            }
+
+            if(!Directory.Exists(destinationPath)) {
+                Directory.CreateDirectory(destinationPath);
+            }
+
+            CopyFilesRecursively(new DirectoryInfo(sourcePath), new DirectoryInfo(destinationPath));
+            AssetDatabase.Refresh();
+
+            Debug.Log($"Examples installed to {destinationPath}");
+        }
+
+        private static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target) {
+            foreach(DirectoryInfo dir in source.GetDirectories())
+                CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
+
+            foreach(FileInfo file in source.GetFiles())
+                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
         }
 
         private void OnSuccess(string response) {
