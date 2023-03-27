@@ -15,6 +15,8 @@ This Unity package provides an easy-to-use integration for the Hugging Face Infe
 
 ### Configuration
 
+After installation, the Hugging Face API wizard should open. If not, open it by clicking "Window" > "Hugging Face API Wizard".
+
 1. Enter your API key. Generate keys at: https://huggingface.co/settings/profile
 2. Optionally, update the endpoint for a different conversation model.
 3. Test the API configuration by sending a query.
@@ -24,9 +26,10 @@ This Unity package provides an easy-to-use integration for the Hugging Face Infe
 
 To try the included example scene, follow these steps:
 
-1. Navigate to the "Examples" > "Scenes" folder within the package.
-2. Open the "HuggingFaceAPIExampleScene" scene.
-3. Press "Play" to run the example. You should be able to use the UI to interact with the model.
+1. Click "Install Examples" in the Hugging Face API Wizard to copy the example files into your project.
+2. Navigate to the "Hugging Face API" > "Examples" > "Scenes" folder in your project.
+3. Open the "ConversationExample" scene.
+4. Press "Play" to run the example. You should be able to use the UI to interact with the model.
 
 ### API Usage in Scripts
 
