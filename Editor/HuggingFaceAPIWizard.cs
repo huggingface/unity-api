@@ -11,8 +11,13 @@ namespace HuggingFace.API.Editor {
         private string responseText = string.Empty;
         private string statusMessage = string.Empty;
 
-        private static string sourcePath = Path.Combine(Application.dataPath, "../Packages/com.huggingface.api/Examples");
-        private static string destinationPath = Path.Combine(Application.dataPath, "HuggingFaceAPI/Examples");
+        private static string sourcePath;
+        private static string destinationPath;
+
+        private void OnEnable() {
+            sourcePath = Path.GetFullPath("Packages/com.huggingface.api/Examples");
+            destinationPath = Path.Combine(Application.dataPath, "HuggingFaceAPI/Examples");
+        }
 
         static HuggingFaceAPIWizard() {
             EditorApplication.update += CheckConfig;
