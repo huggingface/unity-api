@@ -18,10 +18,6 @@ namespace HuggingFace.API {
                     return;
                 }
             }
-            Query(config.apiKey, config.apiEndpoint, conversation, inputText, onSuccess, onError);
-        }
-
-        public static void Query(string apiKey, string apiEndpoint, HuggingFaceAPIConversation conversation, string inputText, Action<string> onSuccess, Action<string> onError) {
             JObject payload = new JObject {
                 ["inputs"] = new JObject {
                 new JProperty("past_user_inputs", new JArray(conversation.GetPastUserInputs().ToArray())),
@@ -30,7 +26,7 @@ namespace HuggingFace.API {
             }
             };
 
-            RunCoroutine(SendRequest(apiEndpoint, apiKey, payload, response => {
+            RunCoroutine(SendRequest(config.apiEndpoint, config.apiKey, payload, response => {
                 conversation.AddUserInput(inputText);
                 conversation.AddGeneratedResponse(response);
                 onSuccess?.Invoke(response);

@@ -9,5 +9,8 @@
     "name": "Dylan Ebert",
     "email": "dylan@huggingface.co",
     "url": "https://github.com/huggingface/unity-api"
-  }
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6"
+  }{
 }

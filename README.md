@@ -20,7 +20,6 @@ After installation, the Hugging Face API wizard should open. If not, open it by 
 1. Enter your API key. Generate keys at: https://huggingface.co/settings/profile
 2. Optionally, update the endpoint for a different conversation model.
 3. Test the API configuration by sending a query.
-4. Click "Save Configuration" to finalize settings and start using the API.
 
 ### Example Scene
 
