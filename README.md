@@ -28,7 +28,8 @@ To try the included example scene, follow these steps:
 1. Click "Install Examples" in the Hugging Face API Wizard to copy the example files into your project.
 2. Navigate to the "Hugging Face API" > "Examples" > "Scenes" folder in your project.
 3. Open the "ConversationExample" scene.
-4. Press "Play" to run the example. You should be able to use the UI to interact with the model.
+4. If prompted by the TMP Importer, click "Import TMP Essentials".
+5. Press "Play" to run the example. You should be able to use the UI to interact with the model.
 
 ### API Usage in Scripts
 
