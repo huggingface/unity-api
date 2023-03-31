@@ -51,7 +51,7 @@ namespace HuggingFace.API.Editor {
         private void OnGUI() {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Instructions:", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox("1. Enter your API key. Generate keys at: https://huggingface.co/settings/profile\n2. Optionally, update the endpoint for a different conversation model.\n3. Test the API configuration by sending a query.", MessageType.Info);
+            EditorGUILayout.HelpBox("1. Enter your API key. Generate keys at: https://huggingface.co/settings/profile\n2. Test the API configuration by sending a query.\n3. Optionally, update the endpoints to use different models.", MessageType.Info);
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Hugging Face API Setup", EditorStyles.boldLabel);
