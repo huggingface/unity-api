@@ -5,11 +5,9 @@ using UnityEngine;
 namespace HuggingFace.API.Editor {
     [InitializeOnLoad]
     public class HuggingFaceAPIWizard : EditorWindow {
-        private string editorInputText = "Hello";
-        private string responseText = string.Empty;
         private string statusMessage = string.Empty;
 
-        private static HuggingFaceAPIConfig config;
+        private static APIConfig config;
         private static string sourcePath;
         private static string destinationPath;
 
@@ -25,21 +23,20 @@ namespace HuggingFace.API.Editor {
         private static void CheckConfig() {
             EditorApplication.update -= CheckConfig;
             LoadOrCreateConfig();
-            if(string.IsNullOrEmpty(config.apiKey)) {
+            if (string.IsNullOrEmpty(config.apiKey)) {
                 ShowWindow();
             }
         }
 
         private static void LoadOrCreateConfig() {
             string resourcesPath = "Assets/Resources";
-            if(!AssetDatabase.IsValidFolder(resourcesPath)) {
+            if (!AssetDatabase.IsValidFolder(resourcesPath)) {
                 AssetDatabase.CreateFolder("Assets", "Resources");
             }
             string configPath = $"{resourcesPath}/HuggingFaceAPIConfig.asset";
-            config = AssetDatabase.LoadAssetAtPath<HuggingFaceAPIConfig>(configPath);
-            if(config == null) {
-                config = ScriptableObject.CreateInstance<HuggingFaceAPIConfig>();
-                config.apiEndpoint = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill";
+            config = AssetDatabase.LoadAssetAtPath<APIConfig>(configPath);
+            if (config == null) {
+                config = ScriptableObject.CreateInstance<APIConfig>();
                 AssetDatabase.CreateAsset(config, configPath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
@@ -59,27 +56,39 @@ namespace HuggingFace.API.Editor {
 
             EditorGUILayout.LabelField("Hugging Face API Setup", EditorStyles.boldLabel);
 
-            config.apiKey = EditorGUILayout.TextField("API Key", config.apiKey);
-            config.apiEndpoint = EditorGUILayout.TextField("API Endpoint", config.apiEndpoint);
-            editorInputText = EditorGUILayout.TextField("Input Text", editorInputText);
+            EditorGUI.BeginChangeCheck();
+            string apiKey = EditorGUILayout.TextField("API Key", config.apiKey);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(config, "Change API Key");
+                config.SetAPIKey(apiKey);
+                EditorUtility.SetDirty(config);
+            }
 
-            if(GUILayout.Button("Send Test Query")) {
+            if (GUILayout.Button("Test API Key")) {
                 statusMessage = "<color=white>Waiting for API response...</color>";
                 Repaint();
-                HuggingFaceAPIConversation conversation = new HuggingFaceAPIConversation();
-                HuggingFaceAPI.Query(conversation, editorInputText, OnSuccess, OnError);
+                HuggingFaceAPI.TestAPIKey(apiKey, OnSuccess, OnError);
             }
 
             EditorGUILayout.LabelField("Status:", EditorStyles.boldLabel);
             EditorGUILayout.LabelField(statusMessage, new GUIStyle());
 
-
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("Response", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Task Endpoints", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
 
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.TextArea(responseText, GUILayout.Height(100));
-            EditorGUI.EndDisabledGroup();
+            for (int i = 0; i < config.taskEndpoints.Count; i++) {
+                TaskEndpoint endpoint = config.taskEndpoints[i];
+                EditorGUI.BeginChangeCheck();
+                string newEndpoint = EditorGUILayout.TextField(endpoint.taskName, endpoint.endpoint);
+                if (EditorGUI.EndChangeCheck()) {
+                    Undo.RecordObject(config, "Change Task Endpoint");
+                    config.taskEndpoints[i] = new TaskEndpoint(endpoint.taskName, newEndpoint);
+                    EditorUtility.SetDirty(config);
+                }
+            }
+
+            EditorGUI.indentLevel--;
 
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Examples", EditorStyles.boldLabel);
@@ -87,23 +96,23 @@ namespace HuggingFace.API.Editor {
             bool examplesInstalled = Directory.Exists(destinationPath);
             EditorGUI.BeginDisabledGroup(examplesInstalled);
 
-            if(GUILayout.Button("Install Examples")) {
+            if (GUILayout.Button("Install Examples")) {
                 InstallExamples();
             }
 
             EditorGUI.EndDisabledGroup();
-            if(examplesInstalled) {
+            if (examplesInstalled) {
                 EditorGUILayout.HelpBox("Examples are installed. You can find them in the HuggingFaceAPI/Examples folder.", MessageType.Info);
             }
         }
 
         private static void InstallExamples() {
-            if(!Directory.Exists(sourcePath)) {
+            if (!Directory.Exists(sourcePath)) {
                 Debug.LogError($"Examples not found at {sourcePath}");
                 return;
             }
 
-            if(!Directory.Exists(destinationPath)) {
+            if (!Directory.Exists(destinationPath)) {
                 Directory.CreateDirectory(destinationPath);
             }
 
@@ -114,21 +123,19 @@ namespace HuggingFace.API.Editor {
         }
 
         private static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target) {
-            foreach(DirectoryInfo dir in source.GetDirectories())
+            foreach (DirectoryInfo dir in source.GetDirectories())
                 CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
 
-            foreach(FileInfo file in source.GetFiles())
+            foreach (FileInfo file in source.GetFiles())
                 file.CopyTo(Path.Combine(target.FullName, file.Name), true);
         }
 
         private void OnSuccess(string response) {
-            responseText = response;
-            statusMessage = "<color=#5cb85c>API call succeeded! You may now close this window.</color>";
+            statusMessage = "<color=#5cb85c>API key is valid!</color>";
         }
 
         private void OnError(string error) {
-            responseText = $"Error: {error}";
-            statusMessage = $"<color=#d9534f>API call failed: {error}</color>";
+            statusMessage = $"<color=#d9534f>{error}</color>";
         }
     }
 }

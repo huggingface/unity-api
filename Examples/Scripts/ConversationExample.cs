@@ -3,7 +3,7 @@ using HuggingFace.API;
 using TMPro;
 using UnityEngine.UI;
 
-public class HuggingFaceAPIExampleUI : MonoBehaviour {
+public class ConversationExample : MonoBehaviour {
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private TMP_Text conversationText;
     [SerializeField] private TMP_InputField inputField;
@@ -12,7 +12,7 @@ public class HuggingFaceAPIExampleUI : MonoBehaviour {
     [SerializeField] private Color userTextColor = Color.blue;
     [SerializeField] private Color botTextColor = Color.black;
 
-    private HuggingFaceAPIConversation conversation = new HuggingFaceAPIConversation();
+    private Conversation conversation = new Conversation();
     private string userColorHex;
     private string botColorHex;
     private string errorColorHex;
@@ -36,16 +36,16 @@ public class HuggingFaceAPIExampleUI : MonoBehaviour {
     }
 
     private void OnInputFieldEndEdit(string text) {
-        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
             SendQuery();
         }
     }
 
     private void SendQuery() {
-        if(isWaitingForResponse) return;
+        if (isWaitingForResponse) return;
 
         string inputText = inputField.text;
-        if(string.IsNullOrEmpty(inputText)) {
+        if (string.IsNullOrEmpty(inputText)) {
             return;
         }
 
@@ -59,9 +59,10 @@ public class HuggingFaceAPIExampleUI : MonoBehaviour {
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 0f;
 
-        HuggingFaceAPI.Query(conversation, inputText, response => {
+        HuggingFaceAPI.Query("Conversation", inputText, response => {
+            string reply = conversation.GetLatestResponse();
             conversationText.text = conversationText.text.TrimEnd("Bot is typing...\n".ToCharArray());
-            conversationText.text += $"\n<color=#{botColorHex}>Bot: {response}</color>\n\n";
+            conversationText.text += $"\n<color=#{botColorHex}>Bot: {reply}</color>\n\n";
             inputField.interactable = true;
             inputField.ActivateInputField();
             isWaitingForResponse = false;
@@ -75,7 +76,7 @@ public class HuggingFaceAPIExampleUI : MonoBehaviour {
             isWaitingForResponse = false;
             Canvas.ForceUpdateCanvases();
             scrollRect.verticalNormalizedPosition = 0f;
-        });
+        }, conversation);
     }
 
     private void ClearButtonClicked() {
