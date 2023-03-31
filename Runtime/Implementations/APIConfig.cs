@@ -14,8 +14,11 @@ namespace HuggingFace.API {
         public List<TaskEndpoint> taskEndpoints => _taskEndpoints;
 
         public APIConfig() {
-            InitializeTaskEndpoints();
-        }  
+            if (taskEndpoints == null)
+                InitializeTaskEndpoints();
+            else
+                UpdateTaskEndpoints();
+        }
 
         private void InitializeTaskEndpoints() {
             var taskTypes = Assembly.GetExecutingAssembly().GetTypes()
@@ -24,6 +27,20 @@ namespace HuggingFace.API {
             foreach (var taskType in taskTypes) {
                 var task = (ITask)Activator.CreateInstance(taskType);
                 _taskEndpoints.Add(new TaskEndpoint(task.taskName, task.defaultEndpoint));
+            }
+        }
+
+        private void UpdateTaskEndpoints() {
+            var taskTypes = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.GetInterfaces().Contains(typeof(ITask)) && !t.IsInterface && !t.IsAbstract);
+            foreach (var taskType in taskTypes) {
+                var task = (ITask)Activator.CreateInstance(taskType);
+                var existingEndpoint = taskEndpoints.FirstOrDefault(e => e.taskName == task.taskName);
+                if (existingEndpoint == null) {
+                    taskEndpoints.Add(new TaskEndpoint(task.taskName, task.defaultEndpoint));
+                } else if (string.IsNullOrEmpty(existingEndpoint.endpoint)) {
+                    existingEndpoint.endpoint = task.defaultEndpoint;
+                }
             }
         }
 
@@ -43,7 +60,7 @@ namespace HuggingFace.API {
         }
 
         public string[] GetTaskNames() {
-            if(taskEndpoints == null)
+            if (taskEndpoints == null)
                 return new string[0];
             return taskEndpoints.Select(e => e.taskName).ToArray();
         }
