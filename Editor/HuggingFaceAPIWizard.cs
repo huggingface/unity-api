@@ -43,7 +43,7 @@ namespace HuggingFace.API.Editor {
             }
         }
 
-        [MenuItem("Window/Hugging Face API Wizard")]
+        [MenuItem("Window/Hugging Face/API Wizard")]
         public static void ShowWindow() {
             GetWindow<HuggingFaceAPIWizard>("Hugging Face API Wizard");
         }

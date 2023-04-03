@@ -33,7 +33,11 @@ namespace HuggingFace.API {
                 }
             };
             client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
-                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response);
+                if (!(response is string responseText)) {
+                    onError?.Invoke("Failed to load response.");
+                    return;
+                }
+                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(responseText);
                 if (!jsonResponse.TryGetValue("generated_text", out JToken responseObject)) {
                     onError?.Invoke("Response does not contain a generated_text field.");
                     return;

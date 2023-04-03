@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace HuggingFace.API {
     public class APIClient : IAPIClient {
-        public IEnumerator SendRequest(string url, string apiKey, JObject payload, Action<string> onSuccess, Action<string> onError) {
+        public IEnumerator SendRequest(string url, string apiKey, JObject payload, Action<object> onSuccess, Action<string> onError) {
             using (UnityWebRequest request = new UnityWebRequest(url, "POST")) {
                 request.SetRequestHeader("Authorization", $"Bearer {apiKey}");
                 request.SetRequestHeader("Content-Type", "application/json");
@@ -18,8 +18,12 @@ namespace HuggingFace.API {
                     onError?.Invoke(request.error);
                     yield break;
                 } else {
-                    string response = request.downloadHandler.text;
-                    onSuccess?.Invoke(response);
+                    string contentType = request.GetResponseHeader("Content-Type");
+                    if(contentType != null && (contentType.StartsWith("text") || contentType.Equals("application/json"))) {
+                        onSuccess?.Invoke(request.downloadHandler.text);
+                    } else {
+                        onSuccess?.Invoke(request.downloadHandler.data);
+                    }
                 }
             }
         }

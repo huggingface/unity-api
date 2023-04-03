@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 namespace HuggingFace.API {
@@ -30,11 +31,13 @@ namespace HuggingFace.API {
             }
         }
 
-        private void UpdateTaskEndpoints() {
+        public void UpdateTaskEndpoints() {
             var taskTypes = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(t => t.GetInterfaces().Contains(typeof(ITask)) && !t.IsInterface && !t.IsAbstract);
+            HashSet<string> currentTaskNames = new HashSet<string>();
             foreach (var taskType in taskTypes) {
                 var task = (ITask)Activator.CreateInstance(taskType);
+                currentTaskNames.Add(task.taskName);
                 var existingEndpoint = taskEndpoints.FirstOrDefault(e => e.taskName == task.taskName);
                 if (existingEndpoint == null) {
                     taskEndpoints.Add(new TaskEndpoint(task.taskName, task.defaultEndpoint));
@@ -42,6 +45,7 @@ namespace HuggingFace.API {
                     existingEndpoint.endpoint = task.defaultEndpoint;
                 }
             }
+            taskEndpoints.RemoveAll(x => !currentTaskNames.Contains(x.taskName));
         }
 
         public bool GetTaskEndpoint(string taskName, out TaskEndpoint taskEndpoint) {

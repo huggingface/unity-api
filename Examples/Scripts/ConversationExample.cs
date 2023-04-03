@@ -51,6 +51,7 @@ public class ConversationExample : MonoBehaviour {
 
         isWaitingForResponse = true;
         inputField.interactable = false;
+        sendButton.interactable = false;
         inputField.text = "";
 
         conversationText.text += $"<color=#{userColorHex}>You: {inputText}</color>\n";
@@ -64,6 +65,7 @@ public class ConversationExample : MonoBehaviour {
             conversationText.text = conversationText.text.TrimEnd("Bot is typing...\n".ToCharArray());
             conversationText.text += $"\n<color=#{botColorHex}>Bot: {reply}</color>\n\n";
             inputField.interactable = true;
+            sendButton.interactable = true;
             inputField.ActivateInputField();
             isWaitingForResponse = false;
             Canvas.ForceUpdateCanvases();
@@ -72,6 +74,7 @@ public class ConversationExample : MonoBehaviour {
             conversationText.text = conversationText.text.TrimEnd("Bot is typing...\n".ToCharArray());
             conversationText.text += $"\n<color=#{errorColorHex}>Error: {error}</color>\n\n";
             inputField.interactable = true;
+            sendButton.interactable = true;
             inputField.ActivateInputField();
             isWaitingForResponse = false;
             Canvas.ForceUpdateCanvases();
