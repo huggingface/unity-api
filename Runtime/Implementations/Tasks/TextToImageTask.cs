@@ -1,36 +1,26 @@
-using System;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace HuggingFace.API {
-    public class TextToImageTask : ITask {
-        public string taskName => "TextToImage";
-        public string defaultEndpoint => "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5";
+    public class TextToImageTask : TaskBase<string, Texture2D> {
+        public override string taskName => "TextToImage";
+        public override string defaultEndpoint => "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5";
 
-        public void Query(object input, IAPIClient client, IAPIConfig config, Action<object> onSuccess, Action<string> onError, object context = null) {
-            if (!config.GetTaskEndpoint(taskName, out TaskEndpoint taskEndpoint)) {
-                onError?.Invoke($"Task endpoint for task {taskName} not found");
-                return;
-            }
-            if (!(input is string inputText)) {
-                onError?.Invoke("Input is not a string.");
-                return;
-            }
-            JObject payload = new JObject {
-                ["inputs"] = inputText
+        protected override JObject GetPayload(string input, object context) {
+            return new JObject {
+                ["inputs"] = input
             };
-            client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
-                if(!(response is byte[] imageBytes)) {
-                    onError?.Invoke("Failed to load image.");
-                    return;
-                }
-                Texture2D texture = new Texture2D(2, 2);
-                if(texture.LoadImage(imageBytes)) {
-                    onSuccess?.Invoke(texture);
-                } else {
-                    onError?.Invoke("Failed to load image.");
-                }
-            }, onError).RunCoroutine();
+        }
+
+        protected override bool PostProcess(object raw, string input, object context, out Texture2D response, out string error) {
+            response = new Texture2D(2, 2);
+            if (response.LoadImage(raw as byte[])) {
+                error = null;
+                return true;
+            } else {
+                error = "Failed to load image.";
+                return false;
+            }
         }
     }
 }

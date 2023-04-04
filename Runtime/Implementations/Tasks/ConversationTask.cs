@@ -1,52 +1,46 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace HuggingFace.API {
-    public class ConversationTask : ITask {
-        public string taskName => "Conversation";
-        public string defaultEndpoint => "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill";
+    public class ConversationTask : TaskBase<string, string, Conversation> {
+        public override string taskName => "Conversation";
+        public override string defaultEndpoint => "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill";
 
-        public void Query(object input, IAPIClient client, IAPIConfig config, Action<object> onSuccess, Action<string> onError, object context = null) {
-            if (!config.GetTaskEndpoint(taskName, out TaskEndpoint taskEndpoint)) {
-                onError?.Invoke($"Task endpoint for task {taskName} not found");
-                return;
-            }
-            if (!(input is string inputText)) {
-                onError?.Invoke("Input is not a string.");
-                return;
-            }
-            Conversation conversation = null;
+        protected override bool VerifyContext(object context, out Conversation conversation) {
+            conversation = null;
             if (context == null) {
-                context = conversation = new Conversation();
+                conversation = new Conversation();
+                return true;
             } else if (context is Conversation) {
                 conversation = (Conversation)context;
-            } else {
-                onError?.Invoke("Context is not a Conversation.");
-                return;
+                return true;
             }
-            JObject payload = new JObject {
+            return false;
+        }
+
+        protected override JObject GetPayload(string input, Conversation conversation) {
+            return new JObject {
                 ["inputs"] = new JObject {
                     new JProperty("past_user_inputs", new JArray(conversation.GetPastUserInputs().ToArray())),
                     new JProperty("generated_responses", new JArray(conversation.GetGeneratedResponses().ToArray())),
-                    new JProperty("text", inputText)
+                    new JProperty("text", input)
                 }
             };
-            client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
-                if (!(response is string responseText)) {
-                    onError?.Invoke("Failed to load response.");
-                    return;
-                }
-                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(responseText);
-                if (!jsonResponse.TryGetValue("generated_text", out JToken responseObject)) {
-                    onError?.Invoke("Response does not contain a generated_text field.");
-                    return;
-                }
-                string generatedResponse = responseObject.ToString();
-                conversation.AddUserInput(inputText);
-                conversation.AddGeneratedResponse(generatedResponse);
-                onSuccess?.Invoke(conversation);
-            }, onError).RunCoroutine();
+        }
+
+        protected override bool PostProcess(object raw, string input, Conversation conversation, out string response, out string error) {
+            error = "";
+            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>((string)raw);
+            if (!jsonResponse.TryGetValue("generated_text", out JToken responseObject)) {
+                error = "Response does not contain a generated_text field.";
+                response = null;
+                return false;
+            }
+            string generatedResponse = responseObject.ToString();
+            conversation.AddUserInput((string)input);
+            conversation.AddGeneratedResponse(generatedResponse);
+            response = generatedResponse;
+            return true;
         }
     }
 }

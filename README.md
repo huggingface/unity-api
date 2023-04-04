@@ -33,7 +33,7 @@ To try the included example scene, follow these steps:
 
 ### API Usage in Scripts
 
-The package includes a `HuggingFaceAPI` class that you can use from your scripts. The API currently only supports the Conversation tasks, but more tasks will be added. Follow the steps below to use the Conversation API:
+The package includes a `HuggingFaceAPI` class that you can use from your scripts. The API currently only supports the Conversation     s, but more     s will be added. Follow the steps below to use the Conversation API:
 
 1. Import the `HuggingFace.API` namespace in your script.
 2. Create a new `Conversation` instance to manage the conversation state.
@@ -42,7 +42,7 @@ using HuggingFace.API;
 
 Conversation conversation = new Conversation();
 ```
-3. Call the `Query()` method. Pass the task name `"Conversation"`, the user input, the `onSuccess` and `onError` callbacks, and the conversation instance.
+3. Call the `Query()` method. Pass the      name `"Conversation"`, the user input, the `onSuccess` and `onError` callbacks, and the conversation instance.
 ```
 string userInput = "Tell me a joke.";
 HuggingFaceAPI.Query("Conversation", userInput, OnSuccess, OnError, conversation);
@@ -64,6 +64,32 @@ private void OnError(string error) {
 ```
 
 For a detailed example of how to use API in a script, refer to the included `Examples/Scripts/ConversationExample.cs` script.
+
+### Status
+
+| Task                         | Status    |
+| ---------------------------- | --------- |
+| Conversation                 | [x]       |
+| Text Generation              | [x]*      |
+| Text to Image                | [x]       |
+| TextToText                   | [x]*      |
+| Feature Extraction           | [x]*      |
+| Text Classification          | [x]*      |
+| Token Classification         | [x]*      |
+| Question Answering           | [x]*      |
+| Zero-Shot Classification     | [x]*      |
+| Translation                  | [x]*      |
+| Summarization                | [x]*      |
+| Fill Mask                    | [x]*      |
+| Sentence Similarity          | [x]*      |
+| Table Question Answering     | [ ]       |
+| Automatic Speech Recognition | [ ]       |
+| Audio Classification         | [ ]       |
+| Image Classification         | [ ]       |
+| Object Detection             | [ ]       |
+| Image Segmentation           | [ ]       |
+
+*[x] Tasks return raw JSON output.
 
 ### Support
 

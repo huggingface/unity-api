@@ -43,7 +43,7 @@ namespace HuggingFace.API.Editor {
             }
         }
 
-        [MenuItem("Window/Hugging Face/API Wizard")]
+        [MenuItem("Window/Hugging Face API Wizard")]
         public static void ShowWindow() {
             GetWindow<HuggingFaceAPIWizard>("Hugging Face API Wizard");
         }
@@ -89,6 +89,12 @@ namespace HuggingFace.API.Editor {
             }
 
             EditorGUI.indentLevel--;
+
+            if (GUILayout.Button("Reset to Defaults")) {
+                Undo.RecordObject(config, "Reset Task Endpoints");
+                config.InitializeTaskEndpoints();
+                EditorUtility.SetDirty(config);
+            }
 
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Examples", EditorStyles.boldLabel);

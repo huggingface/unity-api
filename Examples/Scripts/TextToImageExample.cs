@@ -43,7 +43,7 @@ public class TextToImageExample : MonoBehaviour {
             return;
         }
 
-        statusText.text = $"<color=#{normalColorHex}>Generating {inputText}...</color>";
+        statusText.text = $"<color=#{normalColorHex}>Generating...</color>";
         image.color = Color.black;
 
         isWaitingForResponse = true;

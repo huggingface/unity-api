@@ -8,7 +8,6 @@ namespace HuggingFace.API.Editor {
             UpdateTaskEndpoints();
         }
 
-        [MenuItem("Window/Hugging Face/Update Task Endpoints")]
         public static void UpdateTaskEndpoints() {
             var apiConfig = Resources.Load<APIConfig>("HuggingFaceAPIConfig");
             if (apiConfig == null) {

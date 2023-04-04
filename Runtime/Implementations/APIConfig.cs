@@ -21,7 +21,7 @@ namespace HuggingFace.API {
                 UpdateTaskEndpoints();
         }
 
-        private void InitializeTaskEndpoints() {
+        public void InitializeTaskEndpoints() {
             var taskTypes = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(t => t.GetInterfaces().Contains(typeof(ITask)) && !t.IsInterface && !t.IsAbstract);
             _taskEndpoints = new List<TaskEndpoint>();
