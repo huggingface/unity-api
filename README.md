@@ -89,7 +89,9 @@ For a detailed example of how to use API in a script, refer to the included `Exa
 | Object Detection             | [ ]       |
 | Image Segmentation           | [ ]       |
 
-*[x] Tasks return raw JSON output.
+[x] Fully implemented.
+[x]* Implemented but returns raw JSON output.
+[ ] Not implemented.
 
 ### Support
 
