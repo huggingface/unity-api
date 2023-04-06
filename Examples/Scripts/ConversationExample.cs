@@ -60,7 +60,7 @@ public class ConversationExample : MonoBehaviour {
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 0f;
 
-        HuggingFaceAPI.Query("Conversation", inputText, response => {
+        HuggingFaceAPI.Conversation(inputText, response => {
             string reply = conversation.GetLatestResponse();
             conversationText.text = conversationText.text.TrimEnd("Bot is typing...\n".ToCharArray());
             conversationText.text += $"\n<color=#{botColorHex}>Bot: {reply}</color>\n\n";

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace HuggingFace.API {
-    public class Conversation : IConversation {
+    public class Conversation {
         private List<string> pastUserInputs = new List<string>();
         private List<string> generatedResponses = new List<string>();
 

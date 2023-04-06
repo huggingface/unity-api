@@ -22,26 +22,30 @@ namespace HuggingFace.API {
         public abstract string defaultEndpoint { get; }
 
         public virtual void Query(object input, IAPIClient client, IAPIConfig config, Action<object> onSuccess, Action<string> onError, object context = null) {
-            if (!config.GetTaskEndpoint(taskName, out TaskEndpoint taskEndpoint)) {
-                onError?.Invoke($"Task endpoint for task {taskName} not found");
-                return;
-            }
-            if (!VerifyInput(input, out TInput inputObject)) {
-                onError?.Invoke($"Input is not of type {typeof(TInput)}");
-                return;
-            }
-            if (!VerifyContext(context, out TContext contextObject)) {
-                onError?.Invoke($"Context is not of type {typeof(TContext)}");
-                return;
-            }
-            JObject payload = GetPayload(inputObject, contextObject);
-            client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
-                if (!PostProcess(response, inputObject, contextObject, out TResponse postProcessedResponse, out string error)) {
-                    onError?.Invoke(error);
+            try {
+                if (!config.GetTaskEndpoint(taskName, out TaskEndpoint taskEndpoint)) {
+                    onError?.Invoke($"Task endpoint for task {taskName} not found");
                     return;
                 }
-                onSuccess?.Invoke(postProcessedResponse);
-            }, onError).RunCoroutine();
+                if (!VerifyInput(input, out TInput inputObject)) {
+                    onError?.Invoke($"Input is not of type {typeof(TInput)}");
+                    return;
+                }
+                if (!VerifyContext(context, out TContext contextObject)) {
+                    onError?.Invoke($"Context is not of type {typeof(TContext)}");
+                    return;
+                }
+                JObject payload = GetPayload(inputObject, contextObject);
+                client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
+                    if (!PostProcess(response, inputObject, contextObject, out TResponse postProcessedResponse, out string error)) {
+                        onError?.Invoke(error);
+                        return;
+                    }
+                    onSuccess?.Invoke(postProcessedResponse);
+                }, onError).RunCoroutine();
+            } catch (Exception e) {
+                onError?.Invoke(e.Message);
+            }
         }
 
         protected virtual bool VerifyInput(object input, out TInput inputObject) {

@@ -1,7 +1,8 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace HuggingFace.API {
-    public class SentenceSimilarityTask : TaskBase<string, string, string[]> {
+    public class SentenceSimilarityTask : TaskBase<string, float[], string[]> {
         public override string taskName => "SentenceSimilarity";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2";
 
@@ -12,6 +13,12 @@ namespace HuggingFace.API {
                     ["sentences"] = new JArray(context)
                 }
             };
+        }
+
+        protected override bool PostProcess(object raw, string input, string[] context, out float[] response, out string error) {
+            error = "";
+            response = JsonConvert.DeserializeObject<float[]>((string)raw);
+            return true;
         }
     }
 }

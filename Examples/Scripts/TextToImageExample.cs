@@ -51,11 +51,7 @@ public class TextToImageExample : MonoBehaviour {
         generateButton.interactable = false;
         inputField.text = "";
 
-        HuggingFaceAPI.Query("TextToImage", inputText, response => {
-            if (!(response is Texture2D texture)) {
-                Debug.LogError("Failed to load image.");
-                return;
-            }
+        HuggingFaceAPI.TextToImage(inputText, texture => {
             image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
             image.color = Color.white;
             statusText.text = $"";

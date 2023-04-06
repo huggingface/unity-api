@@ -18,7 +18,7 @@ This Unity package provides an easy-to-use integration for the Hugging Face Infe
 After installation, the Hugging Face API wizard should open. If not, open it by clicking "Window" > "Hugging Face API Wizard".
 
 1. Enter your API key. Generate keys at: https://huggingface.co/settings/profile
-2. Test the API configuration by sending a query.
+2. Test the API key.
 3. Optionally, update the endpoints to use different models.
 
 ### Example Scene
@@ -33,64 +33,42 @@ To try the included example scene, follow these steps:
 
 ### API Usage in Scripts
 
-The package includes a `HuggingFaceAPI` class that you can use from your scripts. The API currently only supports the Conversation     s, but more     s will be added. Follow the steps below to use the Conversation API:
+The package includes a `HuggingFaceAPI` class that you can use from your scripts.
 
 1. Import the `HuggingFace.API` namespace in your script.
-2. Create a new `Conversation` instance to manage the conversation state.
+2. Call the API method for the task you want.
 ```
 using HuggingFace.API;
 
-Conversation conversation = new Conversation();
-```
-3. Call the `Query()` method. Pass the      name `"Conversation"`, the user input, the `onSuccess` and `onError` callbacks, and the conversation instance.
-```
-string userInput = "Tell me a joke.";
-HuggingFaceAPI.Query("Conversation", userInput, OnSuccess, OnError, conversation);
-```
-4. Implement the `OnSuccess` and `OnError` callbacks.
-```
-private void OnSuccess(object response) {
-    // Response is the updated Conversation object
-    string generatedText = conversation.GetLatestResponse();
-
-    // Do something with the generated text, e.g., display it in the UI
-    Debug.Log("Generated Text: " + generatedText);
-}
-
-private void OnError(string error) {
-    // Handle errors, e.g., log or display them in the UI
-    Debug.LogError("Error: " + error);
-}
+HuggingFaceAPI.TextToImage("a cat in a hat", result => {
+    // Do something with the result, which in this case is a Texture2D
+}, error => {
+    // Handle errors
+    Debug.LogError(error);
+});
 ```
 
-For a detailed example of how to use API in a script, refer to the included `Examples/Scripts/ConversationExample.cs` script.
+For a more advanced scripting example, refer to the included example scripts.
 
 ### Status
 
 | Task                         | Status    |
 | ---------------------------- | --------- |
 | Conversation                 | [x]       |
-| Text Generation              | [x]*      |
+| Text Generation              | [x]       |
 | Text to Image                | [x]       |
-| TextToText                   | [x]*      |
-| Feature Extraction           | [x]*      |
-| Text Classification          | [x]*      |
-| Token Classification         | [x]*      |
-| Question Answering           | [x]*      |
-| Zero-Shot Classification     | [x]*      |
-| Translation                  | [x]*      |
-| Summarization                | [x]*      |
-| Fill Mask                    | [x]*      |
-| Sentence Similarity          | [x]*      |
-| Table Question Answering     | [ ]       |
-| Automatic Speech Recognition | [ ]       |
+| Text Classification          | [x]       |
+| Question Answering           | [x]       |
+| Translation                  | [x]       |
+| Summarization                | [x]       |
+| Sentence Similarity          | [x]       |
+| Speech Recognition           | [ ]       |
 | Audio Classification         | [ ]       |
 | Image Classification         | [ ]       |
 | Object Detection             | [ ]       |
 | Image Segmentation           | [ ]       |
 
-[x] Fully implemented.
-[x]* Implemented but returns raw JSON output.
+[x] Implemented.
 [ ] Not implemented.
 
 ### Support
