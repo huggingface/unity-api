@@ -18,14 +18,14 @@ namespace HuggingFace.API {
             return false;
         }
 
-        protected override JObject GetPayload(string input, Conversation conversation) {
-            return new JObject {
+        protected override IPayload GetPayload(string input, Conversation conversation) {
+            return new JObjectPayload(new JObject {
                 ["inputs"] = new JObject {
                     new JProperty("past_user_inputs", new JArray(conversation.GetPastUserInputs().ToArray())),
                     new JProperty("generated_responses", new JArray(conversation.GetGeneratedResponses().ToArray())),
                     new JProperty("text", input)
                 }
-            };
+            });
         }
 
         protected override bool PostProcess(object raw, string input, Conversation conversation, out string response, out string error) {

@@ -148,6 +148,16 @@ namespace HuggingFace.API {
         }
 
         /// <summary>
+        /// Generates a text from the input text and returns the response as a string.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="onSuccess"></param>
+        /// <param name="onError"></param>
+        public static void AutomaticSpeechRecognition(byte[] input, Action<string> onSuccess, Action<string> onError) {
+            Query<byte[], string>("AutomaticSpeechRecognition", input, onSuccess, onError);
+        }
+
+        /// <summary>
         /// Test the API key by sending a request to the API.
         /// </summary>
         /// <param name="apiKey"></param>

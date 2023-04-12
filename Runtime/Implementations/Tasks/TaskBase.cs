@@ -3,10 +3,10 @@ using Newtonsoft.Json.Linq;
 
 namespace HuggingFace.API {
     public abstract class TaskBase : TaskBase<string, string> {
-        protected override JObject GetPayload(string input, object context) {
-            return new JObject {
+        protected override IPayload GetPayload(string input, object context) {
+            return new JObjectPayload(new JObject {
                 ["inputs"] = input
-            };
+            });
         }
     }
 
@@ -35,7 +35,7 @@ namespace HuggingFace.API {
                     onError?.Invoke($"Context is not of type {typeof(TContext)}");
                     return;
                 }
-                JObject payload = GetPayload(inputObject, contextObject);
+                IPayload payload = GetPayload(inputObject, contextObject);
                 client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
                     if (!PostProcess(response, inputObject, contextObject, out TResponse postProcessedResponse, out string error)) {
                         onError?.Invoke(error);
@@ -58,7 +58,7 @@ namespace HuggingFace.API {
             return contextObject != null;
         }
 
-        protected abstract JObject GetPayload(TInput input, TContext context);
+        protected abstract IPayload GetPayload(TInput input, TContext context);
 
         protected virtual bool PostProcess(object raw, TInput input, TContext context, out TResponse response, out string error) {
             response = raw as TResponse;

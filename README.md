@@ -62,7 +62,7 @@ For a more advanced scripting example, refer to the included example scripts.
 | Translation                  | [x]       |
 | Summarization                | [x]       |
 | Sentence Similarity          | [x]       |
-| Speech Recognition           | [ ]       |
+| Speech Recognition           | [x]       |
 | Audio Classification         | [ ]       |
 | Image Classification         | [ ]       |
 | Object Detection             | [ ]       |

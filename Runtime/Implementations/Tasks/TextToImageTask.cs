@@ -6,10 +6,10 @@ namespace HuggingFace.API {
         public override string taskName => "TextToImage";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5";
 
-        protected override JObject GetPayload(string input, object context) {
-            return new JObject {
+        protected override IPayload GetPayload(string input, object context) {
+            return new JObjectPayload(new JObject {
                 ["inputs"] = input
-            };
+            });
         }
 
         protected override bool PostProcess(object raw, string input, object context, out Texture2D response, out string error) {

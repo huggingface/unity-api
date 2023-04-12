@@ -6,10 +6,10 @@ namespace HuggingFace.API {
         public override string taskName => "TextClassification";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english";
 
-        protected override JObject GetPayload(string input, object context) {
-            return new JObject {
+        protected override IPayload GetPayload(string input, object context) {
+            return new JObjectPayload(new JObject {
                 ["inputs"] = input
-            };
+            });
         }
 
         protected override bool PostProcess(object raw, string input, object context, out TextClassificationResponse response, out string error) {

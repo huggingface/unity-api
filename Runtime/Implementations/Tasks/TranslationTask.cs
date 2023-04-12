@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 
 namespace HuggingFace.API {
     public class TranslationTask : TaskBase {
