@@ -50,7 +50,7 @@ HuggingFaceAPI.TextToImage("a cat in a hat", result => {
 
 For a more advanced scripting example, refer to the included example scripts.
 
-### Status
+### Tasks
 
 | Task                         | Status    |
 | ---------------------------- | --------- |
@@ -63,13 +63,8 @@ For a more advanced scripting example, refer to the included example scripts.
 | Summarization                | [x]       |
 | Sentence Similarity          | [x]       |
 | Speech Recognition           | [x]       |
-| Audio Classification         | [ ]       |
-| Image Classification         | [ ]       |
-| Object Detection             | [ ]       |
-| Image Segmentation           | [ ]       |
 
 [x] Implemented.
-[ ] Not implemented.
 
 ### Support
 
