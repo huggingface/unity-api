@@ -13,7 +13,12 @@ namespace HuggingFace.API {
                 yield return request.SendWebRequest();
 
                 if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError) {
-                    onError?.Invoke(request.error);
+                    string serverErrorMessage = request.downloadHandler.text;
+                    if (!string.IsNullOrEmpty(serverErrorMessage)) {
+                        onError?.Invoke($"{request.error} - {serverErrorMessage}");
+                    } else {
+                        onError?.Invoke(request.error);
+                    }
                     yield break;
                 } else {
                     string contentType = request.GetResponseHeader("Content-Type");
@@ -34,7 +39,13 @@ namespace HuggingFace.API {
                 yield return request.SendWebRequest();
 
                 if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError) {
-                    onError?.Invoke(request.error);
+                    string serverErrorMessage = request.downloadHandler.text;
+                    if (!string.IsNullOrEmpty(serverErrorMessage)) {
+                        onError?.Invoke($"{request.error} - {serverErrorMessage}");
+                    } else {
+                        onError?.Invoke(request.error);
+                    }
+                    yield break;
                 } else {
                     string response = request.downloadHandler.text;
                     onSuccess?.Invoke(response);
