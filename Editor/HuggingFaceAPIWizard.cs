@@ -96,6 +96,36 @@ namespace HuggingFace.API.Editor {
                 EditorUtility.SetDirty(config);
             }
 
+            EditorGUILayout.Space(10);
+            EditorGUILayout.LabelField("Advanced Settings", EditorStyles.boldLabel);
+
+            EditorGUI.BeginChangeCheck();
+            var content = new GUIContent("Use Backup Endpoints", "If the primary endpoint fails, the API will try to use the backup endpoints.");
+            bool useBackupEndpoints = EditorGUILayout.Toggle(content, config.useBackupEndpoints);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(config, "Change Use Backup Endpoints");
+                config.SetUseBackupEndpoints(useBackupEndpoints);
+                EditorUtility.SetDirty(config);
+            }
+
+            EditorGUI.BeginChangeCheck();
+            content = new GUIContent("Wait for Model", "If true, the API will wait for the model to load if necessary. If false, the API will send the request immediately and return an error if the model is not loaded.");
+            bool waitForModel = EditorGUILayout.Toggle(content, config.waitForModel);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(config, "Change Wait for Model");
+                config.SetWaitForModel(waitForModel);
+                EditorUtility.SetDirty(config);
+            }
+
+            EditorGUI.BeginChangeCheck();
+            content = new GUIContent("Max Timeout", "The maximum time to wait for a response from the API. If the API does not respond within this time, the request will be cancelled. Set to 0 to disable timeout.");
+            float maxTimeout = EditorGUILayout.FloatField(content, config.maxTimeout);
+            if (EditorGUI.EndChangeCheck()) {
+                Undo.RecordObject(config, "Change Max Timeout");
+                config.SetMaxTimeout(maxTimeout);
+                EditorUtility.SetDirty(config);
+            }
+
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Examples", EditorStyles.boldLabel);
 

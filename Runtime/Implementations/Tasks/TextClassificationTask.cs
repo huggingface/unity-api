@@ -6,6 +6,13 @@ namespace HuggingFace.API {
         public override string taskName => "TextClassification";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english";
 
+        protected override string[] LoadBackupEndpoints() {
+            return new string[] {
+                "https://api-inference.huggingface.co/models/ProsusAI/finbert",
+                "https://api-inference.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment"
+            };
+        }
+
         protected override IPayload GetPayload(string input, object context) {
             return new JObjectPayload(new JObject {
                 ["inputs"] = input

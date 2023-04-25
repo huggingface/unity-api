@@ -6,6 +6,13 @@ namespace HuggingFace.API {
         public override string taskName => "Conversation";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill";
 
+        protected override string[] LoadBackupEndpoints() {
+            return new string[] {
+                "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
+                "https://api-inference.huggingface.co/models/facebook/blenderbot-3B"
+            };
+        }
+
         protected override bool VerifyContext(object context, out Conversation conversation) {
             conversation = null;
             if (context == null) {

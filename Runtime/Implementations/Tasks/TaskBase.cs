@@ -20,6 +20,13 @@ namespace HuggingFace.API {
     public abstract class TaskBase<TInput, TResponse, TContext> : ITask where TInput : class where TResponse : class where TContext : class {
         public abstract string taskName { get; }
         public abstract string defaultEndpoint { get; }
+        public string[] backupEndpoints { get; private set; }
+
+        public TaskBase() {
+            backupEndpoints = LoadBackupEndpoints();
+        }
+
+        protected abstract string[] LoadBackupEndpoints();
 
         public virtual void Query(object input, IAPIClient client, IAPIConfig config, Action<object> onSuccess, Action<string> onError, object context = null) {
             try {
@@ -36,13 +43,14 @@ namespace HuggingFace.API {
                     return;
                 }
                 IPayload payload = GetPayload(inputObject, contextObject);
+                string[] backupEndpoints = config.useBackupEndpoints ? this.backupEndpoints : null;
                 client.SendRequest(taskEndpoint.endpoint, config.apiKey, payload, response => {
                     if (!PostProcess(response, inputObject, contextObject, out TResponse postProcessedResponse, out string error)) {
                         onError?.Invoke(error);
                         return;
                     }
                     onSuccess?.Invoke(postProcessedResponse);
-                }, onError).RunCoroutine();
+                }, onError, backupEndpoints, config.waitForModel, config.maxTimeout).RunCoroutine();
             } catch (Exception e) {
                 onError?.Invoke(e.Message);
             }

@@ -6,6 +6,13 @@ namespace HuggingFace.API {
         public override string taskName => "QuestionAnswering";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2";
 
+        protected override string[] LoadBackupEndpoints() {
+            return new string[] {
+                "https://api-inference.huggingface.co/models/distilbert-base-cased-distilled-squad",
+                "https://api-inference.huggingface.co/models/deepset/xlm-roberta-large-squad2"
+            };
+        }
+
         protected override IPayload GetPayload(string input, string context) {
             return new JObjectPayload(new JObject {
                 ["inputs"] = new JObject {

@@ -6,6 +6,13 @@ namespace HuggingFace.API {
         public override string taskName => "TextToImage";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5";
 
+        protected override string[] LoadBackupEndpoints() {
+            return new string[] {
+                "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4",
+                "https://api-inference.huggingface.co/models/prompthero/openjourney"
+            };
+        }
+
         protected override IPayload GetPayload(string input, object context) {
             return new JObjectPayload(new JObject {
                 ["inputs"] = input

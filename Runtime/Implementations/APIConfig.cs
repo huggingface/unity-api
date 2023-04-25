@@ -9,9 +9,15 @@ namespace HuggingFace.API {
     [CreateAssetMenu(fileName = "HuggingFaceAPIConfig", menuName = "HuggingFace/API Config", order = 0)]
     public class APIConfig : ScriptableObject, IAPIConfig {
         [SerializeField] private string _apiKey;
+        [SerializeField] private bool _useBackupEndpoints = true;
+        [SerializeField] private bool _waitForModel = true;
+        [SerializeField] private float _maxTimeout = 3f;
         [SerializeField] private List<TaskEndpoint> _taskEndpoints;
 
         public string apiKey => _apiKey;
+        public bool useBackupEndpoints => _useBackupEndpoints;
+        public bool waitForModel => _waitForModel;
+        public float maxTimeout => _maxTimeout;
         public List<TaskEndpoint> taskEndpoints => _taskEndpoints;
 
         public APIConfig() {
@@ -61,6 +67,18 @@ namespace HuggingFace.API {
 
         public void SetAPIKey(string apiKey) {
             _apiKey = apiKey;
+        }
+
+        public void SetUseBackupEndpoints(bool useBackupEndpoints) {
+            _useBackupEndpoints = useBackupEndpoints;
+        }
+
+        public void SetWaitForModel(bool waitForModel) {
+            _waitForModel = waitForModel;
+        }
+
+        public void SetMaxTimeout(float maxTimeout) {
+            _maxTimeout = maxTimeout;
         }
 
         public string[] GetTaskNames() {

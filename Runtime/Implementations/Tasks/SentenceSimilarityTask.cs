@@ -6,6 +6,13 @@ namespace HuggingFace.API {
         public override string taskName => "SentenceSimilarity";
         public override string defaultEndpoint => "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2";
 
+        protected override string[] LoadBackupEndpoints() {
+            return new string[] {
+                "https://api-inference.huggingface.co/models/sentence-transformers/all-mpnet-base-v2",
+                "https://api-inference.huggingface.co/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+            };
+        }
+
         protected override IPayload GetPayload(string input, string[] context) {
             return new JObjectPayload(new JObject {
                 ["inputs"] = new JObject {
