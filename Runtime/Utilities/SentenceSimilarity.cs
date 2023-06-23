@@ -8,7 +8,7 @@ namespace HuggingFace.API {
         public float FindBestSimilarityScoreValue(float[] similarityScores)
         {
             float maxScore = scores.Max();
-            return maxScore
+            return maxScore;
         }
 
         /// <summary>
@@ -18,10 +18,10 @@ namespace HuggingFace.API {
         /// <returns>The index of the maximum similarity score in the array.</returns>
         public float FindBestSimilarityScoreIndex(float[] similarityScores)
         {
-            float maxScore = FindBestSimilarityScoreValue(similarityScores)
+            float maxScore = FindBestSimilarityScoreValue(similarityScores);
             float maxScore = similarityScores.ToList().IndexOf(maxScore);
             
-            return maxScore
+            return maxScore;
         }
     }
 }
