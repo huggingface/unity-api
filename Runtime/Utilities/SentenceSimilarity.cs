@@ -1,5 +1,12 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+
 namespace HuggingFace.API {
     public class SentenceSimilarity {
+        public float maxScore;
+        public int maxScoreIndex;
+
         /// <summary>
         /// Find the best similiarity score
         /// </summary>
@@ -7,7 +14,7 @@ namespace HuggingFace.API {
         /// <returns>The index of the maximum similarity score.</returns>
         public float FindBestSimilarityScoreValue(float[] similarityScores)
         {
-            float maxScore = similarityScores.Max();
+            maxScore = similarityScores.Max();
             return maxScore;
         }
 
@@ -16,12 +23,12 @@ namespace HuggingFace.API {
         /// </summary>
         /// <param name="similarityScores">An array of similarity scores representing the similarity between each context phrase and the sentence.</param>
         /// <returns>The index of the maximum similarity score in the array.</returns>
-        public float FindBestSimilarityScoreIndex(float[] similarityScores)
+        public int FindBestSimilarityScoreIndex(float[] similarityScores)
         {
-            float maxScore = FindBestSimilarityScoreValue(similarityScores);
-            float maxScore = similarityScores.ToList().IndexOf(maxScore);
+            maxScore = FindBestSimilarityScoreValue(similarityScores);
+            maxScoreIndex = similarityScores.ToList().IndexOf(maxScore);
             
-            return maxScore;
+            return maxScoreIndex;
         }
     }
 }
