@@ -2,6 +2,15 @@
 
 This Unity package provides an easy-to-use integration for the Hugging Face Inference API, allowing developers to access and use Hugging Face AI models within their Unity projects.
 
+## Table of Contents
+1. [Installation](#installation)
+2. [Usage](#usage)
+   - [Configuration](#configuration)
+   - [Example Scene](#example-scene)
+   - [API Usage in Scripts](#api-usage-in-scripts)
+3. [Tasks](#tasks)
+4. [Support](#support)
+
 ## Installation
 
 ### Via Git URL
