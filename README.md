@@ -77,4 +77,4 @@ For a more advanced scripting example, refer to the included example scripts.
 
 ### Support
 
-If you encounter issues or have questions about the package, open an issue on the repository, or ping me (@IndividualKex#9988) on discord.
+If you encounter issues or have questions about the package, open an issue on the repository, or ping me (@IndividualKex) on discord.
