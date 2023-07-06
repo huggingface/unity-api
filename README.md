@@ -26,7 +26,7 @@ This Unity package provides an easy-to-use integration for the Hugging Face Infe
 
 After installation, the Hugging Face API wizard should open. If not, open it by clicking "Window" > "Hugging Face API Wizard".
 
-1. Enter your API key. Generate keys at: https://huggingface.co/settings/profile
+1. Enter your API key. Generate keys at: https://huggingface.co/settings/tokens
 2. Test the API key.
 3. Optionally, update the endpoints to use different models.
 
