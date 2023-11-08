@@ -1,6 +1,6 @@
-# Hugging Face API Unity Integration
+# Hugging Face API for Unity 🤗
 
-This Unity package provides an easy-to-use integration for the Hugging Face Inference API, allowing developers to access and use Hugging Face AI models within their Unity projects.
+This Unity package provides an **easy-to-use integration for the Hugging Face Inference API**, allowing developers to access and **use Hugging Face AI models within their Unity projects**.
 
 ## Table of Contents
 1. [Installation](#installation)
@@ -29,6 +29,17 @@ After installation, the Hugging Face API wizard should open. If not, open it by 
 1. Enter your API key. Generate keys at: https://huggingface.co/settings/tokens
 2. Test the API key.
 3. Optionally, update the endpoints to use different models.
+
+### Try our tutorial
+
+To help you getting started, we wrote a tutorial where you create a robot agent that understands text orders and executes them.
+
+
+The tutorial 👉 https://thomassimonini.substack.com/p/building-a-smart-robot-ai-using-hugging
+
+The demo 👉 https://huggingface.co/spaces/ThomasSimonini/SmartRobot
+
+<img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F893d861c-e6ee-416c-bc44-9a588caf4d42_1920x1080.png" alt="Jammo Robot"/>
 
 ### Example Scene
 
@@ -63,18 +74,16 @@ For a more advanced scripting example, refer to the included example scripts.
 
 | Task                         | Status    |
 | ---------------------------- | --------- |
-| Conversation                 | [x]       |
-| Text Generation              | [x]       |
-| Text to Image                | [x]       |
-| Text Classification          | [x]       |
-| Question Answering           | [x]       |
-| Translation                  | [x]       |
-| Summarization                | [x]       |
-| Sentence Similarity          | [x]       |
-| Speech Recognition           | [x]       |
-
-[x] Implemented.
+| Conversation                 | ✅     |
+| Text Generation              | ✅     |
+| Text to Image                | ✅     |
+| Text Classification          | ✅     |
+| Question Answering           | ✅     |
+| Translation                  | ✅     |
+| Summarization                | ✅     |
+| Sentence Similarity          | ✅     |
+| Speech Recognition           | ✅     |
 
 ### Support
 
-If you encounter issues or have questions about the package, open an issue on the repository, or ping me (@IndividualKex) on discord.
+If you encounter issues or have questions about the package, open an issue on the repository.
