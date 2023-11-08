@@ -74,16 +74,15 @@ For a more advanced scripting example, refer to the included example scripts.
 
 | Task                         | Status    |
 | ---------------------------- | --------- |
-| Conversation                 | - [x]     |
-| Text Generation              | - [x]     |
-| Text to Image                | - [x]     |
-| Text Classification          | - [x]     |
-| Question Answering           | - [x]     |
-| Translation                  | - [x]     |
-| Summarization                | - [x]     |
-| Sentence Similarity          | - [x]     |
-| Speech Recognition           | - [x]     |
-
+| Conversation                 | [x]     |
+| Text Generation              | [x]     |
+| Text to Image                | [x]     |
+| Text Classification          | [x]     |
+| Question Answering           | [x]     |
+| Translation                  | [x]     |
+| Summarization                | [x]     |
+| Sentence Similarity          | [x]     |
+| Speech Recognition           | [x]     |
 
 ### Support
 
