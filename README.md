@@ -78,6 +78,7 @@ For a more advanced scripting example, refer to the included example scripts.
 | Text Generation              | ✅     |
 | Text to Image                | ✅     |
 | Text Classification          | ✅     |
+| Zero Shot Text Classification| ✅     |
 | Question Answering           | ✅     |
 | Translation                  | ✅     |
 | Summarization                | ✅     |
