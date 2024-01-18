@@ -158,6 +158,18 @@ namespace HuggingFace.API {
         }
 
         /// <summary>
+        /// Classifies the input text based on user labels and returns labels and scores in a ZeroShotTextClassificationResponse object.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="onSuccess"></param>
+        /// <param name="onError"></param>
+        public static void ZeroShotTextClassification(string input, Action<ZeroShotTextClassificationResponse> onSuccess, Action<string> onError, string[] context)
+        {
+            Query<string, ZeroShotTextClassificationResponse, string[]>("ZeroShotTextClassification", input, onSuccess, onError, context);
+        }
+
+
+        /// <summary>
         /// Test the API key by sending a request to the API.
         /// </summary>
         /// <param name="apiKey"></param>
