@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityEngine; // Don't forget to include this using directive
 
 namespace HuggingFace.API {
     public class ZeroShotTextClassificationTask : TaskBase<string, ZeroShotTextClassificationResponse, string[]> {
@@ -40,8 +39,6 @@ namespace HuggingFace.API {
                 response.classifications = new List<Classification>();
                 for (int i = 0; i < response.labels.Count; i++)
                 {
-                    Debug.Log("lael: " + response.labels[i]);
-                    Debug.Log("score: " + response.scores[i]);
                     Classification classification = new Classification
                     {
                         label = response.labels[i],
