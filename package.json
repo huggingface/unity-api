@@ -5,7 +5,7 @@
   "unity": "2020.3",
   "description": "A Unity plugin for making API calls to the Hugging Face API.",
   "keywords": ["huggingface", "api", "chatbot"],
-  "author": [
+  "authors": [
     {
       "name": "Dylan Ebert",
       "email": "dylan@huggingface.co",
