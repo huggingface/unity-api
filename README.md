@@ -23,12 +23,23 @@ This Unity package provides an **easy-to-use integration for the Hugging Face In
 ## Usage
 
 ### Configuration
+In the Hugging Face Website:
+
+1. Generate an API key in https://huggingface.co/settings/tokens, we **advise you to create a Fine-Grained Token.
+
+2. When the API key is created click on Set Permissions
+
+<img src="https://huggingface.co/datasets/huggingface-ml-4-games-course/course-images/resolve/main/en/communication/api_step2.png" alt="Hugging Face Token Step 2"/>
+
+3. Authorize Inference with this API key
+
+<img src="https://huggingface.co/datasets/huggingface-ml-4-games-course/course-images/resolve/main/en/communication/api_step3.png" alt="Hugging Face Token Step 3"/>
 
 After installation, the Hugging Face API wizard should open. If not, open it by clicking "Window" > "Hugging Face API Wizard".
 
-1. Enter your API key. Generate keys at: https://huggingface.co/settings/tokens
-2. Test the API key.
-3. Optionally, update the endpoints to use different models.
+4. Test the API key.
+
+5. Optionally, update the endpoints to use different models.
 
 ### Try our tutorial
 
